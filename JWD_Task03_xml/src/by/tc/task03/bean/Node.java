@@ -1,8 +1,12 @@
 package by.tc.task03.bean;
 
-public class Node {
-	NodeType type;
-	String content;
+import java.io.Serializable;
+
+public class Node implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private NodeType type;
+	private String content;
 
 	public Node(NodeType type, String content) {
 		super();
@@ -12,6 +16,10 @@ public class Node {
 
 	public Node() {
 		super();
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public NodeType getType() {
@@ -62,6 +70,5 @@ public class Node {
 	public String toString() {
 		return "Node [type=" + type + ", content=" + content + "]";
 	}
-	
-	
+
 }
