@@ -23,8 +23,9 @@ public class XMLAnalyzerImpl implements XMLAnalyzer {
 	@Override
 	public Node getNext() {
 		try {
-			if ((buffer.toString().trim().length() == 0)) {
-				if (fileReader.isXMLEpmty()) {
+			if ((buffer.toString().trim().length() == 0)) {// слишком длинный вызов, хоть и общеихвестных методов
+				if (fileReader.isXMLEpmty()) {// fileReader - не говорит, что ты читаешь их xml, а метод уже привязывает
+					// вот такая нестыковка в именовании может вывести на ошибки в коде - наличие этого метода не очевидно, так как непонятно, почему это сам ридер может быть пустым
 					return null;
 				}
 
@@ -32,9 +33,9 @@ public class XMLAnalyzerImpl implements XMLAnalyzer {
 			}
 		} catch (IOException e) {
 
-			e.printStackTrace();
+			e.printStackTrace();// А ЭТО ЧТО ТАКОЕ? что это за гашение исключеноия?
 		}
-		trimBuffer(buffer);
+		trimBuffer(buffer);// действительно обрезаем буфер?
 		NodeType nodeType = getNodeType(buffer);
 		Node node = getNode(buffer, nodeType);
 		deleteNodeFromBuffer(node);
@@ -44,13 +45,13 @@ public class XMLAnalyzerImpl implements XMLAnalyzer {
 
 	private NodeType getNodeType(StringBuilder buffer) {
 
-		if (buffer.charAt(0) != '<') {
+		if (buffer.charAt(0) != '<') {// ну когда же ты уже начнешь именовать константы в коде?
 			return NodeType.CHARACTERS;
 		} else if (buffer.charAt(1) == '/') {
 			return NodeType.CLOSE_TAG;
 		}
 		int index = buffer.indexOf(">");
-		if (buffer.charAt(index - 1) == '/') {
+		if (buffer.charAt(index - 1) == '/') {// в этом методе некрасивая какая-то логика
 			return NodeType.EMPTY_TAG;
 		}
 		return NodeType.OPEN_TAG;
@@ -63,7 +64,7 @@ public class XMLAnalyzerImpl implements XMLAnalyzer {
 			node = getCaractersNode(buffer, nodeType);
 		} else {
 			node = getTagNode(buffer, nodeType);
-		}
+		}// а если типов узлов будет 20? что делать будем?
 
 		return node;
 	}
