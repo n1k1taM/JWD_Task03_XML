@@ -23,7 +23,8 @@ public class FileReaderImpl implements XMLFileReader {
 	@Override
 	public String read() throws IOException {
 		StringBuilder buffer = new StringBuilder(0);
-		try (InputStream in = new FileInputStream(new File(filePath));
+		try (InputStream in = new FileInputStream(new File(filePath));// а зачем нам при каждом вызове открывать поток чтения?
+		     // не перебор ли это
 				Reader reader = new InputStreamReader(in, "UTF-8");
 				Reader bufferReader = new BufferedReader(reader)) {
 			int readedChar;
@@ -39,13 +40,13 @@ public class FileReaderImpl implements XMLFileReader {
 				buffer.append(ch);
 			}
 		}
-		String string = buffer.toString();
+		String string = buffer.toString();// прада просто  string?
 		return string;
 	}
 
 	@Override
 	public boolean isXMLEpmty() throws IOException {
-		try (InputStream in = new FileInputStream(new File(filePath));
+		try (InputStream in = new FileInputStream(new File(filePath));// и уж точно перебор для решения задачи просерки на эмпти открывать поток заново
 				Reader reader = new InputStreamReader(in, "UTF-8");
 				Reader bufferReader = new BufferedReader(reader)) {
 
